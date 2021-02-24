@@ -1,14 +1,17 @@
-# Webpack Starter
+# Firestore Demos
 
-Este es el proyecto inicial para crear aplicaciones utilizando webpack.
+This is a firestore practice project
 
-### Notas:
-Recuerden reconstruir los módulos de Node
+### Notes:
+
+Remember to rebuild the Node modules
+
 ```
 npm install
 ```
 
-Y para construir el build, recueren:
+And to build the build, remember:
+
 ```
 npm run build
 ```
