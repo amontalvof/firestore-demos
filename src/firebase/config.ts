@@ -13,6 +13,9 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-console.log('Firebase configured!');
+// console.log(
+//     `%c${'*************** Firebase configured ***************'}`,
+//     'color: black; background: cyan'
+// );
 
 export default firebase.firestore();
