@@ -4,49 +4,43 @@ import db from './firebase/config';
 // import { deleteDoc } from './helpers/delete';
 import { selectAll } from './helpers/select';
 
-const user = {
-    name: 'Susana',
-    active: false,
-    birthDate: 0,
-    salary: 1950,
-};
-
 const usersRef = db.collection('users');
 
-// insertDoc(usersRef, user);
+let lastDocument: any = null;
+let firstDocument: any = null;
 
-// updateDoc(usersRef, 'kXR4FPQaltbp120GpQaw', { active: false });
-// setDoc(usersRef, 'kXR4FPQaltbp120GpQaw', { active: false, edad: 44 });
+// btn Previous
+const btnPrevious = document.createElement('button');
+btnPrevious.innerText = 'Previous Page';
+document.body.appendChild(btnPrevious);
 
-// deleteDoc(usersRef, 'kXR4FPQaltbp120GpQaw');
+btnPrevious.addEventListener('click', () => {
+    const query = usersRef.orderBy('name').endBefore(firstDocument);
+    query
+        .limit(3)
+        .get()
+        .then((snap) => {
+            firstDocument = snap.docs[0] || null;
+            lastDocument = snap.docs[snap.docs.length - 1] || null;
+            selectAll(snap);
+        });
+});
 
-/*
- ! onSnapshot is pending any change in the database through sockets
- */
-// usersRef.onSnapshot(selectAll);
+// btn Next
+const btnNext = document.createElement('button');
+btnNext.innerText = 'Next Page';
+document.body.appendChild(btnNext);
 
-/*
-? select * from users
-*/
-// usersRef.get().then(selectAll);
+btnNext.addEventListener('click', () => {
+    const query = usersRef.orderBy('name').startAfter(lastDocument);
+    query
+        .limit(3)
+        .get()
+        .then((snap) => {
+            firstDocument = snap.docs[0] || null;
+            lastDocument = snap.docs[snap.docs.length - 1] || null;
+            selectAll(snap);
+        });
+});
 
-/*
-? select * from users where salary <= 1800
-*/
-// usersRef.where('salary', '<=', 1800).get().then(selectAll);
-
-/*
-? select * from users where salary >= 1800 and salary <= 2300
-! for this compound query I need to create an index in Firestore, I do it by clicking on the link that appears in the console error or you can create it directly in Firestore
-*/
-// usersRef
-//     .where('salary', '>=', 1800)
-//     .where('active', '==', true)
-//     .get()
-//     .then(selectAll);
-
-/*
-? select * from users orderBy name desc, salary asc
-! the orderBy clause if the field where you are ordering does not exist in a doc, excludes it from the data. If we have multiple orderBy we have to create an index
-*/
-// usersRef.orderBy('name', 'desc').orderBy('salary').get().then(selectAll);
+btnNext.click();
