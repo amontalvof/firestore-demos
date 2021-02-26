@@ -104,4 +104,4 @@ usersRef.orderBy('name', 'desc').orderBy('salary').get().then(selectAll);
 
 -   #### Pagination
 
-The index.ts have an example of pagination.
+The src/index.ts have an example of pagination.
